@@ -93,7 +93,7 @@ public class SuperDuperMarkt {
                         + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                         + "name TEXT NOT NULL,"
                         + "quality INTEGER,"
-                        + "expireDate TEXT,"
+                        + "expiry_Date TEXT,"
                         + "base_price REAL,"
                         + "category TEXT,"
                         + "updated_at TIMESTAMP DEFAULT (datetime('now', 'localtime')),"
@@ -101,7 +101,7 @@ public class SuperDuperMarkt {
                         + ")";
                 String createTrigger = "CREATE TRIGGER IF NOT EXISTS update_product AFTER UPDATE ON products " +
                         "FOR EACH ROW BEGIN UPDATE products SET updated_at = (datetime('now', 'localtime')) WHERE id=old.id; END";
-                String selectAllSQL = "SELECT id, name, quality, expireDate, base_price, category, updated_at, created_at FROM products";
+                String selectAllSQL = "SELECT id, name, quality, expiry_date, base_price, category, updated_at, created_at FROM products";
 
                 try (Connection conn = DriverManager.getConnection(url);
                      Statement stmt = conn.createStatement()) {
@@ -119,7 +119,7 @@ public class SuperDuperMarkt {
                             String parseDate;
                             LocalDate expiryDate;
                             try {
-                                parseDate = rs.getString("expireDate");
+                                parseDate = rs.getString("expiry_Date");
                                 expiryDate = LocalDate.parse(parseDate);
 
                             } catch (DateTimeParseException | NullPointerException e) {
